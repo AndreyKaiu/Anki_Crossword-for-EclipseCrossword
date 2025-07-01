@@ -7,7 +7,7 @@ Add-on for the Anki program. Creating a crossword for Anki (generation so far on
 
 ![Crossword1_0_3](https://github.com/user-attachments/assets/5ebeb497-197a-48a1-9b1d-9d4d6d2fd132)
 
-Тестовую колоду (файл .apkg) найдете в папке с дополнением или же по ссылке [https://ankiweb.net/shared/info/1204327392](https://ankiweb.net/shared/info/1204327392)
+You will find the test deck (.apkg file) in the folder with the add-on or via the link [https://ankiweb.net/shared/info/1204327392](https://ankiweb.net/shared/info/1204327392)
 
 ![Crossword1_0_4](https://github.com/user-attachments/assets/3cf08bda-a285-4417-b776-85bf31c05f58)
 
