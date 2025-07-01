@@ -19,6 +19,7 @@ Add-on for the Anki program. Creating a crossword for Anki (generation so far on
 
 
 **CONTENTS OF THE HELP TAB**
+
 This Anki add-on serves to simplify the creation of crosswords built using the free program https://www.eclipsecrossword.com/
 The EclipseCrossword program is Windows-only, but you'll only need it once to generate the crossword code.
 
