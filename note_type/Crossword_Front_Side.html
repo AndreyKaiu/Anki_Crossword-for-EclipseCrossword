@@ -1,0 +1,281 @@
+<h3 style="margin: 0px; padding: 0px; text-align: center;" class="z_lang_front00">Crossword</h3>
+<h2 style="margin: 0px; padding: 0px; text-align: center;">{{Title}}</h2>
+<br><br>
+<div>
+<details>
+  <summary><span style="font-size: 18px;" class="z_lang_front01">List of words</span></summary>
+  <div class="controls">
+    <button id="showAllBtn" class="z_lang_front02">Show all</button>&nbsp;
+    <button id="hideAllBtn" class="z_lang_front03">Hide all</button>&nbsp;
+    <label>
+        <input type="checkbox" id="speechSynthCheckbox" checked><span class="z_lang_front04">Speech synthesis</span>
+    </label>&nbsp;
+    <label>
+        <input type="checkbox" id="showOnlyOneCheckbox"><span class="z_lang_front05">Show only 1</span>
+    </label>
+</div>
+<div class="allwords" id="allwords"></div>
+</details>
+<br>
+<details>
+    <summary><span style="font-size: 18px;" class="z_lang_front1">Help</span></summary>
+    <div>
+<p class="z_lang_front2">We memorize 5 words until we can easily recall them (usually we need to go through these words 3 times in a circle).</p>
+<p class="z_lang_front3">These 5 words (lines) are separated by a line.</p>
+<p class="z_lang_front4">Before showing a word (a sentence of words), we need to visually recall each letter (drawing in our imagination letter by letter that we are writing or typing it on the screen), remember how the word is pronounced. After the word is voiced (if 'Speech synthesis' is enabled when showing a word or sentence), we need to say this word to ourselves two or three more times.</p>
+<p class="z_lang_front5">The 'Show all' button is designed to show all blocks (in []). It is useful if you need to quickly recall and do not need to study.</p>
+<p class="z_lang_front6">The 'Hide all' button is designed to hide all blocks in order to then proceed to the memorization process.</p>
+<p class="z_lang_front7">You can click on the field with the 'Show only 1' flag (set) and then, before showing the desired block, all the others will be hidden. This helps to concentrate better on one block and it is useful, because before opening another block, you should try to remember what is there, and this helps to memorize.</p>
+<p class="z_lang_front8">The field with the 'Speech synthesis' checkbox can be disabled if you do not like the synthesized voice (depending on the system settings).</p>
+<p class="z_lang_front9">This functionality of hiding and opening blocks allows you to organize the desired order of memorization: open a word and remember the translation or vice versa, open the translation and remember the word.</p>
+<p class="z_lang_front10">You are not limited in the sequence of memorizing words, but it is still advisable to memorize about 5 words well before moving on to memorizing the other 5 words.</p>
+    </div>
+</details>
+
+</div>
+
+<script type="text/javascript">
+// TRANSLATE ALL MESSAGES INTO YOUR LANGUAGE
+// YOUR TRANSLATION
+var z_lang_front00 = "Crossword";
+var z_lang_front01 = "List of words";
+var z_lang_front02 = "Show all";
+var z_lang_front03 = "Hide all";
+var z_lang_front04 = "Speech synthesis";
+var z_lang_front05 = "Show only 1";
+var z_lang_front1 = "Help";
+var z_lang_front2 = "We memorize 5 words until we can easily recall them (usually we need to go through these words 3 times in a circle). ";
+var z_lang_front3 = "These 5 words (lines) are separated by a line.";
+var z_lang_front4 = "Before showing a word (a sentence of words), we need to visually recall each letter (drawing in our imagination letter by letter that we are writing or typing it on the screen), remember how the word is pronounced. After the word is voiced (if \"Speech synthesis\" is enabled when showing a word or sentence), we need to say this word to ourselves two or three more times.";
+var z_lang_front5 = "The \"Show all\" button is designed to show all blocks (in []). It is useful if you need to quickly recall and do not need to study.";
+var z_lang_front6 = "The \"Hide all\" button is designed to hide all blocks in order to then proceed to the memorization process.";
+var z_lang_front7 = "You can click on the field with the \"Show only 1\" flag (set) and then, before showing the desired block, all the others will be hidden. This helps to concentrate better on one block and it is useful, because before opening another block, you should try to remember what is there, and this helps to memorize.";
+var z_lang_front8 = "The field with the \"Speech synthesis\" checkbox can be disabled if you do not like the synthesized voice (depending on the system settings). ";
+var z_lang_front9 = "This functionality of hiding and opening blocks allows you to organize the desired order of memorization: open a word and remember the translation or vice versa, open the translation and remember the word.";
+var z_lang_front10 = "You are not limited in the sequence of memorizing words, but it is still advisable to memorize about 5 words well before moving on to memorizing the other 5 words.";
+
+// ORIGINAL IN ENGLISH
+// z_lang_front00 = "Crossword";
+// z_lang_front01 = "List of words";
+// z_lang_front02 = "Show all";
+// z_lang_front03 = "Hide all";
+// z_lang_front04 = "Speech synthesis";
+// z_lang_front05 = "Show only 1";
+// z_lang_front1 = "Help";
+// z_lang_front2 = "We memorize 5 words until we can easily recall them (usually we need to go through these words 3 times in a circle). ";
+// z_lang_front3 = "These 5 words (lines) are separated by a line.";
+// z_lang_front4 = "Before showing a word (a sentence of words), we need to visually recall each letter (drawing in our imagination letter by letter that we are writing or typing it on the screen), remember how the word is pronounced. After the word is voiced (if \"Speech synthesis\" is enabled when showing a word or sentence), we need to say this word to ourselves two or three more times.";
+// z_lang_front5 = "The \"Show all\" button is designed to show all blocks (in []). It is useful if you need to quickly recall and do not need to study.";
+// z_lang_front6 = "The \"Hide all\" button is designed to hide all blocks in order to then proceed to the memorization process.";
+// z_lang_front7 = "You can click on the field with the \"Show only 1\" flag (set) and then, before showing the desired block, all the others will be hidden. This helps to concentrate better on one block and it is useful, because before opening another block, you should try to remember what is there, and this helps to memorize.";
+// z_lang_front8 = "The field with the \"Speech synthesis\" checkbox can be disabled if you do not like the synthesized voice (depending on the system settings). ";
+// z_lang_front9 = "This functionality of hiding and opening blocks allows you to organize the desired order of memorization: open a word and remember the translation or vice versa, open the translation and remember the word.";
+// z_lang_front10 = "You are not limited in the sequence of memorizing words, but it is still advisable to memorize about 5 words well before moving on to memorizing the other 5 words.";
+
+
+// Replacements for text in HTML
+var elsCL= document.getElementsByClassName('z_lang_front00');
+for (let elem of elsCL) elem.textContent = z_lang_front00;
+elsCL= document.getElementsByClassName('z_lang_front01');
+for (let elem of elsCL) elem.textContent = z_lang_front01;
+elsCL= document.getElementsByClassName('z_lang_front02');
+for (let elem of elsCL) elem.textContent = z_lang_front02;
+elsCL= document.getElementsByClassName('z_lang_front03');
+for (let elem of elsCL) elem.textContent = z_lang_front03;
+elsCL= document.getElementsByClassName('z_lang_front04');
+for (let elem of elsCL) elem.textContent = z_lang_front04;
+elsCL= document.getElementsByClassName('z_lang_front05');
+for (let elem of elsCL) elem.textContent = z_lang_front05;
+
+elsCL= document.getElementsByClassName('z_lang_front1');
+for (let elem of elsCL) elem.textContent = z_lang_front1;
+elsCL= document.getElementsByClassName('z_lang_front2');
+for (let elem of elsCL) elem.textContent = z_lang_front2;
+elsCL= document.getElementsByClassName('z_lang_front3');
+for (let elem of elsCL) elem.textContent = z_lang_front3;
+elsCL= document.getElementsByClassName('z_lang_front4');
+for (let elem of elsCL) elem.textContent = z_lang_front4;
+elsCL= document.getElementsByClassName('z_lang_front5');
+for (let elem of elsCL) elem.textContent = z_lang_front5;
+elsCL= document.getElementsByClassName('z_lang_front6');
+for (let elem of elsCL) elem.textContent = z_lang_front6;
+elsCL= document.getElementsByClassName('z_lang_front7');
+for (let elem of elsCL) elem.textContent = z_lang_front7;
+elsCL= document.getElementsByClassName('z_lang_front8');
+for (let elem of elsCL) elem.textContent = z_lang_front8;
+elsCL= document.getElementsByClassName('z_lang_front9');
+for (let elem of elsCL) elem.textContent = z_lang_front9;
+elsCL= document.getElementsByClassName('z_lang_front10');
+for (let elem of elsCL) elem.textContent = z_lang_front10;
+
+var jsApiContract;
+var apiAnkiDroid;
+var langSS = '{{Language_SpeechSynthesis}}';
+if(langSS=='') langSS = 'en-US';
+    
+
+
+// Элементы управления
+const showAllBtn = document.getElementById('showAllBtn');
+const hideAllBtn = document.getElementById('hideAllBtn');
+const speechSynthCheckbox = document.getElementById('speechSynthCheckbox');
+const showOnlyOneCheckbox = document.getElementById('showOnlyOneCheckbox');
+
+
+
+if (typeof AnkiDroidJS !== 'undefined') {
+        jsApiContract = { "version": "0.0.3", "developer": "infinyte01@mail.com" };
+        apiAnkiDroid = new AnkiDroidJS(jsApiContract);
+        apiAnkiDroid.ankiTtsSetLanguage(langSS);        
+    }           
+    
+var ttt = `{{word=transcription=translation=example=extranslation}}`;
+var Lttt = ttt.split("<br>");
+var el = document.getElementById("allwords");
+var elhtml = '';    
+for (let i = 0; i < Lttt.length; i++) {
+    let ns = Lttt[i].split("=");       
+    //elhtml += '<span class="hidden-link hide">'; // Nested Blocks Test    
+    if(ns.length > 0)
+        if(ns[0]!="") elhtml += '&nbsp;<span class="hidden-link hide"><b>' + ns[0] + '</b></span>';
+    if(ns.length > 1)
+        if(ns[1]!="") elhtml += '&nbsp;&nbsp;&nbsp;<span class="hidden-link hide">' + ns[1] + '</span>'; 
+    if(ns.length > 2)
+        if(ns[2]!="") elhtml += '&nbsp;&nbsp;&nbsp;<span class="hidden-link hide">' + ns[2] + '</span>';
+    if(ns.length > 3)
+        if(ns[3]!="") elhtml += '&nbsp;&nbsp;&nbsp;<span class="hidden-link hide"><u>' + ns[3] + '</u></span>';
+    if(ns.length > 4)
+        if(ns[4]!="") elhtml += '&nbsp;&nbsp;&nbsp;<span class="hidden-link hide">' + ns[4] + '</span>';    
+    //elhtml += '</span>'; // Nested Blocks Test  
+    elhtml += '<br>';
+    if(i>0 && i%5==4) elhtml += '<hr>';
+}     
+el.innerHTML = elhtml;
+
+
+var ElementsHL = document.getElementsByClassName('hidden-link');
+for (let elem of ElementsHL) {
+    elem.innerHTML = '<span>' + elem.innerHTML + '</span>';
+    elem.onclick = hideshow;        
+}
+var ElementsU = document.getElementsByTagName('u');
+for (let elem of ElementsU) elem.onclick = speakTagNoHide;
+var ElementsB = document.getElementsByTagName('b');
+for (let elem of ElementsB) elem.onclick = speakTagNoHide;
+
+// Показать все элементы
+showAllBtn.addEventListener('click', function() {
+    document.querySelectorAll('.hidden-link').forEach(el => {
+        el.classList.remove('hide');
+    });
+});
+// Скрыть все элементы
+hideAllBtn.addEventListener('click', function() {
+    document.querySelectorAll('.hidden-link').forEach(el => {
+        el.classList.add('hide');
+    });
+});
+    
+    
+// озвучивание текста
+function speakText(txtSpeak) {       
+    /* AnkiDroidJS API */
+    if (typeof AnkiDroidJS !== 'undefined') {        
+        async function apiADResult() {
+            try { apiAnkiDroid.ankiTtsSetLanguage(langSS); } catch(e){}
+            try { apiAnkiDroid.ankiTtsStop(); } catch(e){}
+            try { apiAnkiDroid.ankiTtsSpeak( txtSpeak ); } catch(e){}            
+        }
+        apiADResult();
+    }
+    else {
+        try {
+            const utterance = new SpeechSynthesisUtterance(txtSpeak);
+            utterance.lang = langSS;
+            if ('speechSynthesis' in window) {
+                speechSynthesis.speak(utterance);
+            }
+        }
+        catch(e){}
+    }
+}
+
+
+function shouldSkip(el) {
+    let parent = el.parentElement.closest('.hidden-link');
+    while(parent) {
+        if(parent.classList.contains('hide')) {
+            return true; // Найден родитель с hide - нужно пропустить обработку
+        }
+        parent = parent.parentElement.closest('.hidden-link');
+    }
+    return false; // Родителей с hide не найдено
+}
+
+// озвучивание анг. текста в тегах <B>, <U> если нет у родителя hidden-link класса hide
+function speakTagNoHide(event) {   
+    // Проверяем включен ли флаг синтеза речи
+    if (!speechSynthCheckbox.checked) return;
+    let parent = event.currentTarget.parentElement.closest('.hidden-link');
+    // если в показе, то не озвучим
+    if(parent && !parent.classList.contains('hide')) return;
+    if(parent && shouldSkip(parent)) {
+        return; // Выходим, если у кого-то из родителей есть hide
+    } 
+    var txtSpeak = event.target.innerText;        
+    speakText(txtSpeak);    
+}
+
+
+
+
+function hasParentWithClass(element, className) {
+    let parent = element.parentElement;
+    while (parent) {
+        if (parent.classList.contains(className)) {
+            return parent;
+        }
+        parent = parent.parentElement;
+    }
+    return null;
+}
+
+function hideshow(event) {
+    const el = event.currentTarget; 
+    const elHide = el.classList.contains('hide');        
+        
+    // Проверяем, есть ли выделенный текст
+    const selection = window.getSelection();
+    if (selection.toString().length > 0) {
+        return; // Если текст выделен - прекращаем обработку
+    }
+    
+    const parentHiddenLink = hasParentWithClass(event.currentTarget, 'hidden-link');    
+    // Если есть родитель с hidden-link, с hide — пропускаем обработку
+    if (parentHiddenLink && parentHiddenLink.classList.contains('hide')) {
+        return; // Даём событию всплывать
+    }
+    
+    event.stopPropagation();            
+    
+    if (elHide) {    
+        if (showOnlyOneCheckbox.checked) {
+            // Сначала скрываем все
+            document.querySelectorAll('.hidden-link').forEach(item => {                
+                // Проверяем, является ли текущий элемент предком el или сам el
+                const isAncestorOrSelf = el === item || item.contains(el);                
+                // Пропускаем элементы, которые являются предками el или сам el
+                if (!isAncestorOrSelf) {
+                    item.classList.add('hide');
+                }
+            });            
+        }              
+        el.classList.remove('hide');
+    } else {
+        el.classList.add('hide');           
+    }   
+   
+}
+
+
+</script>
