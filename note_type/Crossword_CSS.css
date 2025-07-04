@@ -2,6 +2,10 @@ p {
     font-size: 16px;    
 }
 
+#waitmessage {
+    font-family: 'Courier New', monospace; 
+}
+
 hr {
     color: #2b2b2b;
     background-color: #2b2b2b;
@@ -296,13 +300,15 @@ body
 
 .ecw-button
 {
-    width: 64pt;
+    min-width: 64pt;
+    max-width: 128pt;
     font-color: black;
 }
 
 .nightMode .ecw-button
 {
-    width: 64pt;
+    min-width: 64pt;
+    max-width: 128pt;
 } 
 
 .ecw-cluebox
@@ -355,6 +361,7 @@ body
     /* background-color: black !important; */
 }
 
+
 .ecw-input::selection
 {
     color: red !important;
@@ -401,11 +408,16 @@ body
     color: blue;
     min-width: 200px;
     width: 100%;
+    background-color: #FFFFFF;
 }
 
 .nightMode #wordentry {
     background-color: #DDDDDD;
     color: blue;
+}
+
+.err_input {
+    background-color: #ff8787 !important;
 }
 
 .container {

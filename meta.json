@@ -1,1 +1,11 @@
-{"name": "Crossword for EclipseCrossword", "mod": 1751391603, "min_point_version": 1, "max_point_version": 250205, "branch_index": 0, "disabled": false, "hint": "", "mark_color": "#ff0000", "conflicts": [], "update_enabled": true}
+{
+    "name": "Crossword for EclipseCrossword",
+    "mod": 1751663761,
+    "min_point_version": 1,
+    "max_point_version": 250205,
+    "branch_index": 0,
+    "disabled": false,
+    "hint": "",
+    "mark_color": "#ff0000",
+    "update_enabled": true
+}

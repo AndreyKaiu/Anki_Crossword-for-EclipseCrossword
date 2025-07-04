@@ -57,9 +57,15 @@
             "SaveErrorField": "Failed to save fields: ",
             "Close": "Close",                        
             "Saved": "Saved",
+            "Solution_hint": "Solution hint",
+            "No_solution_hint": "No solution hint",
+            "Clue_array_not_found": "Clue array not found in the code!",
+            "Failed_to_parse_Clue_array": "Failed to parse 'Clue' array!",
+            "No_match_found_for_Clue_item": "No match found for Clue item",
+
 
             "help_str1": "This Anki add-on serves to simplify the creation of crosswords built using the free program https://www.eclipsecrossword.com/\nThe EclipseCrossword program is Windows-only, but you'll only need it once to generate the crossword code.",
-            "help_str2": "\nIf you already have an EclipseCrossword saved as HTML with JavaScript, you can immediately open the last tab and use the 'Insert from file' button to get the crossword code.\nIn the ready crossword code, check that 'Word = new Array();' is empty, meaning the words aren't saved and there will be no hints.\nAnd at the end of the code there's 'OnlyCheckOnce = false;' - this means you can check the crossword words multiple times, not just once.",
+            "help_str2": "\nIf you already have an EclipseCrossword saved as HTML with JavaScript, you can immediately open the last tab and use the 'Insert from file' button to get the crossword code.\nIn the ready crossword code, check that 'Word = new Array();' is empty, meaning the words aren't saved and there will be no hints.\nAnd at the end of the code there's 'OnlyCheckOnce = false;' - this means you can check the crossword words multiple times, not just once. Since version 1.1, even if the list “Word = new Array();” is not empty, you can write “Solve = false;” at the end of the code and there will be no hints either (this can now be done with buttons).",
             "help_str3": "\nThe crossword itself appears on the back of the card. The front of the card can show words.\nThe words tab can be empty if you don't want any hints, or it can contain a simple word list (or clues).",
             "help_str4": "\nIn the words tab, you can enter not just words but word==translation (hint, definition).\nBy writing == you skip the transcription, which isn't needed in a regular crossword.\nYou can click the button to create data for the third tab or enter it manually, as the format isn't complicated:\nword:  hint\n(note there should be two spaces after the colon).",
             "help_str5": "\nThe word list data can be saved in '*.ewl' format and opened with EclipseCrossword to generate a new crossword, save it as '*.html' file, and then insert the crossword code from this file (button on the last tab).",
@@ -100,7 +106,8 @@
             "var z_lang_back15": "You typed too many letters. Total letters in this word",
             "var z_lang_back16": "Errors",
             "var z_lang_back17": "Incomplete words",
-            "var z_lang_back18": "Finish"
+            "var z_lang_back18": "Finish",
+            "var z_lang_back19" : "Words suggested"
         },
         "ru": {        
             "Unable_to_determine_active_field": "Не удалось определить активное поле.",
@@ -155,9 +162,14 @@
             "SaveErrorField": "Ошибка сохранения полей: ",
             "Close": "Закрыть",
             "Saved": "Сохранено",
+            "Solution_hint": "Подсказка слова",
+            "No_solution_hint": "Без подсказок",
+            "Clue_array_not_found": "Массив Clue не найден в коде!",
+            "Failed_to_parse_Clue_array": "Не удалось разобрать массив Clue!",
+            "No_match_found_for_Clue_item": "Совпадение для элемента Clue не найдено",
 
             "help_str1": "Это дополнение anki служит для упрощения формирования кроссворда построенного с помощью бесплатной программы https://www.eclipsecrossword.com/\nПрограмма EclipseCrossword только для виндовс, но вам она нужна только один раз для генерации кода кроссворда.",
-            "help_str2": "\nЕсли у вас есть готовый кроссворд EclipseCrossword сохраненный как HTML с JavaScript, то вы можете сразу открыть последнюю вкладку и используя кнопку для вставки из файла получить код кроссворда.\nВ готовом коде кроссворда проверьте, что «Word = new Array();» пустой, то есть слова не сохраняются и подсказок не будет.\nИ в конце кода есть «OnlyCheckOnce = false;» - это значит, что можно много раз проверять слова кроссворда, а не однократно.",
+            "help_str2": "\nЕсли у вас есть готовый кроссворд EclipseCrossword сохраненный как HTML с JavaScript, то вы можете сразу открыть последнюю вкладку и используя кнопку для вставки из файла получить код кроссворда.\nВ готовом коде кроссворда проверьте, что «Word = new Array();» пустой, то есть слова не сохраняются и подсказок не будет.\nИ в конце кода есть «OnlyCheckOnce = false;» - это значит, что можно много раз проверять слова кроссворда, а не однократно. С версии 1.1 даже если список «Word = new Array();» не пустой, то можно написать в конце кода «Solve = false;» и подсказок тоже не будет (это можно уже сделать и кнопками).",
             "help_str3": "\nСам кроссворд показывается на обратной стороне карты. А на лицевой стороне карты могут показываться слова.\nВкладка со словами может быть и пустой, если вы не хотите ничего подсказывать, но может быть в виде простого списка слов (или подсказок). ",
             "help_str4": "\nВо вкладке со словами вы можете вводить не просто слова, а слово==перевод (подсказка, определение).\nНаписав == вы пропускаете транскрипцию, которая в обычном кроссворде и не нужна.\nВы можете нажать кнопку создания данных для третьей вкладки или же ввести самому, так как формат там не сложный:\nслово:  подсказка\n(обратите внимание, что после двоеточия должно быть 2 пробела). ",
             "help_str5": "\nДанные списка слов можно сохранить в файл формата «*.ewl» и открывать программой EclipseCrossword для дальнейшей генерации нового кроссворда, сохранения его как файл «*.html» и последующей вставки кода кроссворда из этого файла (кнопка на последней вкладке).",
@@ -198,7 +210,8 @@
             "var z_lang_back15": "Вы ввели слишком много букв. Всего букв в этом слове",
             "var z_lang_back16": "Ошибки",
             "var z_lang_back17": "Неполные слова",
-            "var z_lang_back18": "Завершить"
+            "var z_lang_back18": "Завершить",
+            "var z_lang_back19": "Подсказано слов"
         },       
         "de": {
             "Unable_to_determine_active_field": "Aktives Feld konnte nicht bestimmt werden.",
@@ -253,9 +266,14 @@
             "SaveErrorField": "Fehler beim Speichern der Felder: ",
             "Close": "Schließen",
             "Saved": "Gespeichert",
+            "Solution_hint": "Lösungshinweis",
+            "No_solution_hint": "Kein Lösungshinweis",
+            "Clue_array_not_found": "Clue-Array im Code nicht gefunden!",
+            "Failed_to_parse_Clue_array": "Konnte Clue-Array nicht analysieren!",
+            "No_match_found_for_Clue_item": "Keine Übereinstimmung für Clue-Element gefunden",
 
             "help_str1": "Dieses Anki-Add-on dient dazu, die Erstellung von Kreuzworträtseln zu vereinfachen, die mit dem kostenlosen Programm https://www.eclipsecrossword.com/ erstellt wurden.\nDas EclipseCrossword-Programm ist nur für Windows verfügbar, aber Sie benötigen es nur einmal, um den Rätselcode zu generieren.",
-            "help_str2": "\nWenn Sie bereits ein EclipseCrossword als HTML mit JavaScript gespeichert haben, können Sie sofort den letzten Tab öffnen und über die Schaltfläche 'Aus Datei einfügen' den Rätselcode abrufen.\nÜberprüfen Sie im fertigen Rätselcode, ob 'Word = new Array();' leer ist, was bedeutet, dass die Wörter nicht gespeichert werden und es keine Hinweise geben wird.\nAm Ende des Codes steht 'OnlyCheckOnce = false;' - dies bedeutet, dass Sie die Rätselwörter mehrmals überprüfen können, nicht nur einmal.",
+            "help_str2": "\nWenn Sie bereits ein EclipseCrossword als HTML mit JavaScript gespeichert haben, können Sie sofort den letzten Tab öffnen und über die Schaltfläche 'Aus Datei einfügen' den Rätselcode abrufen.\nÜberprüfen Sie im fertigen Rätselcode, ob 'Word = new Array();' leer ist, was bedeutet, dass die Wörter nicht gespeichert werden und es keine Hinweise geben wird.\nAm Ende des Codes steht 'OnlyCheckOnce = false;' - dies bedeutet, dass Sie die Rätselwörter mehrmals überprüfen können, nicht nur einmal. Seit Version 1.1 können Sie, auch wenn die Liste „Word = new Array();“ nicht leer ist, am Ende des Codes „Solve = false;“ schreiben und es werden auch keine Hinweise angezeigt (dies kann jetzt mit Schaltflächen erfolgen).",
             "help_str3": "\nDas Kreuzworträtsel selbst erscheint auf der Rückseite der Karte. Die Vorderseite der Karte kann Wörter anzeigen.\nDer Wörter-Tab kann leer bleiben, wenn Sie keine Hinweise möchten, oder er kann eine einfache Wortliste (oder Hinweise) enthalten.",
             "help_str4": "\nIm Wörter-Tab können Sie nicht nur Wörter, sondern auch Wort==Übersetzung (Hinweis, Definition) eingeben.\nDurch die Eingabe von == überspringen Sie die Transkription, die bei einem normalen Kreuzworträtsel nicht benötigt wird.\nSie können auf die Schaltfläche klicken, um Daten für den dritten Tab zu erstellen, oder sie manuell eingeben, da das Format nicht kompliziert ist:\nWort:  Hinweis\n(beachten Sie, dass nach dem Doppelpunkt zwei Leerzeichen stehen sollten).",
             "help_str5": "\nDie Wortlistendaten können im Format '*.ewl' gespeichert und mit EclipseCrossword geöffnet werden, um ein neues Rätsel zu generieren, es als '*.html'-Datei zu speichern und dann den Rätselcode aus dieser Datei einzufügen (Schaltfläche im letzten Tab).",
@@ -296,7 +314,8 @@
             "var z_lang_back15": "Sie haben zu viele Buchstaben eingegeben. Gesamtzahl der Buchstaben in diesem Wort",
             "var z_lang_back16": "Fehler",
             "var z_lang_back17": "Unvollständige Wörter",
-            "var z_lang_back18": "Beenden"
+            "var z_lang_back18": "Beenden",
+            "var z_lang_back19" : "Vorgeschlagene Wörter"
         },        
         "es": {
             "Unable_to_determine_active_field": "No se pudo determinar el campo activo.",
@@ -351,9 +370,14 @@
             "SaveErrorField": "Error al guardar los campos: ",
             "Close": "Cerrar",
             "Saved": "Guardado",
+            "Solution_hint": "Pista de la solución",
+            "No_solution_hint": "Sin pista de la solución",
+            "Clue_array_not_found": "¡Matriz Clue no encontrada en el código!",
+            "Failed_to_parse_Clue_array": "¡No se pudo analizar el array Clue!",
+            "No_match_found_for_Clue_item": "No se encontró coincidencia para el elemento Clue",
 
             "help_str1": "Este complemento de Anki sirve para simplificar la creación de crucigramas construidos con el programa gratuito https://www.eclipsecrossword.com/\nEl programa EclipseCrossword solo está disponible para Windows, pero solo lo necesitarás una vez para generar el código del crucigrama.",
-            "help_str2": "\nSi ya tienes un EclipseCrossword guardado como HTML con JavaScript, puedes abrir inmediatamente la última pestaña y usar el botón 'Insertar desde archivo' para obtener el código del crucigrama.\nEn el código del crucigrama terminado, verifica que 'Word = new Array();' esté vacío, lo que significa que las palabras no se guardan y no habrá pistas.\nY al final del código está 'OnlyCheckOnce = false;' - esto significa que puedes verificar las palabras del crucigrama varias veces, no solo una vez.",
+            "help_str2": "\nSi ya tienes un EclipseCrossword guardado como HTML con JavaScript, puedes abrir inmediatamente la última pestaña y usar el botón 'Insertar desde archivo' para obtener el código del crucigrama.\nEn el código del crucigrama terminado, verifica que 'Word = new Array();' esté vacío, lo que significa que las palabras no se guardan y no habrá pistas.\nY al final del código está 'OnlyCheckOnce = false;' - esto significa que puedes verificar las palabras del crucigrama varias veces, no solo una vez. Desde la versión 1.1, incluso si la lista “Word = new Array();” no está vacía, puedes escribir “Solve = false;” al final del código y tampoco habrá sugerencias (esto ahora se puede hacer con botones).",
             "help_str3": "\nEl crucigrama en sí aparece en el reverso de la tarjeta. El frente de la tarjeta puede mostrar palabras.\nLa pestaña de palabras puede estar vacía si no quieres pistas, o puede contener una simple lista de palabras (o indicaciones).",
             "help_str4": "\nEn la pestaña de palabras, puedes ingresar no solo palabras sino palabra==traducción (pista, definición).\nAl escribir == omites la transcripción, que no es necesaria en un crucigrama normal.\nPuedes hacer clic en el botón para crear datos para la tercera pestaña o ingresarlos manualmente, ya que el formato no es complicado:\npalabra:  pista\n(nota: debe haber dos espacios después de los dos puntos).",
             "help_str5": "\nLos datos de la lista de palabras se pueden guardar en formato '*.ewl' y abrir con EclipseCrossword para generar un nuevo crucigrama, guardarlo como archivo '*.html' y luego insertar el código del crucigrama desde este archivo (botón en la última pestaña).",
@@ -394,7 +418,8 @@
             "var z_lang_back15": "Escribiste demasiadas letras. Total de letras en esta palabra",
             "var z_lang_back16": "Errores",
             "var z_lang_back17": "Palabras incompletas",
-            "var z_lang_back18": "Finalizar"
+            "var z_lang_back18": "Finalizar",
+            "var z_lang_back19" : "Palabras sugeridas"
         },
         "fr": {
             "Unable_to_determine_active_field": "Impossible de déterminer le champ actif.",
@@ -449,9 +474,14 @@
             "SaveErrorField": "Échec de l'enregistrement des champs : ",
             "Close": "Fermer",
             "Saved": "Enregistré",
+            "Solution_hint": "Indice de la solution",
+            "No_solution_hint": "Pas d'indice de solution",
+            "Clue_array_not_found": "Tableau Clue introuvable dans le code !",
+            "Failed_to_parse_Clue_array": "Échec de l'analyse du tableau Clue !",
+            "No_match_found_for_Clue_item": "Aucune correspondance trouvée pour l'élément Clue",
 
             "help_str1": "Ce module complémentaire Anki permet de simplifier la création de mots croisés construits avec le programme gratuit https://www.eclipsecrossword.com/\nLe programme EclipseCrossword est uniquement disponible pour Windows, mais vous n'en aurez besoin qu'une fois pour générer le code des mots croisés.",
-            "help_str2": "\nSi vous avez déjà un EclipseCrossword enregistré au format HTML avec JavaScript, vous pouvez immédiatement ouvrir le dernier onglet et utiliser le bouton 'Insérer depuis un fichier' pour obtenir le code des mots croisés.\nDans le code des mots croisés prêt, vérifiez que 'Word = new Array();' est vide, ce qui signifie que les mots ne sont pas sauvegardés et qu'il n'y aura pas d'indices.\nEt à la fin du code il y a 'OnlyCheckOnce = false;' - cela signifie que vous pouvez vérifier les mots des mots croisés plusieurs fois, pas seulement une fois.",
+            "help_str2": "\nSi vous avez déjà un EclipseCrossword enregistré au format HTML avec JavaScript, vous pouvez immédiatement ouvrir le dernier onglet et utiliser le bouton 'Insérer depuis un fichier' pour obtenir le code des mots croisés.\nDans le code des mots croisés prêt, vérifiez que 'Word = new Array();' est vide, ce qui signifie que les mots ne sont pas sauvegardés et qu'il n'y aura pas d'indices.\nEt à la fin du code il y a 'OnlyCheckOnce = false;' - cela signifie que vous pouvez vérifier les mots des mots croisés plusieurs fois, pas seulement une fois. Depuis la version 1.1, même si la liste « Word = new Array(); » n'est pas vide, vous pouvez écrire « Solve = false; » à la fin du code et il n'y aura pas non plus d'indices (cela peut maintenant être fait avec des boutons).",
             "help_str3": "\nLes mots croisés eux-mêmes apparaissent au dos de la carte. Le recto de la carte peut afficher des mots.\nL'onglet des mots peut être vide si vous ne voulez pas d'indices, ou il peut contenir une simple liste de mots (ou des indices).",
             "help_str4": "\nDans l'onglet des mots, vous pouvez saisir non seulement des mots mais aussi mot==traduction (indice, définition).\nEn écrivant == vous sautez la transcription, qui n'est pas nécessaire dans un mots croisés classique.\nVous pouvez cliquer sur le bouton pour créer des données pour le troisième onglet ou les saisir manuellement, car le format n'est pas compliqué :\nmot :  indice\n(remarque : il doit y avoir deux espaces après les deux points).",
             "help_str5": "\nLes données de la liste de mots peuvent être enregistrées au format '*.ewl' et ouvertes avec EclipseCrossword pour générer un nouveau mots croisés, l'enregistrer en tant que fichier '*.html', puis insérer le code des mots croisés à partir de ce fichier (bouton dans le dernier onglet).",
@@ -492,7 +522,8 @@
             "var z_lang_back15": "Vous avez saisi trop de lettres. Nombre total de lettres dans ce mot",
             "var z_lang_back16": "Erreurs",
             "var z_lang_back17": "Mots incomplets",
-            "var z_lang_back18": "Terminer"
+            "var z_lang_back18": "Terminer",
+            "var z_lang_back19" : "Mots suggérés"
         },        
         "it": {
             "Unable_to_determine_active_field": "Impossibile determinare il campo attivo.",
@@ -546,10 +577,15 @@
             "FieldsUpdated": "Tutti i campi sono stati aggiornati con successo!",
             "SaveErrorField": "Salvataggio campi fallito: ",
             "Close": "Chiudi",
-            "Saved": "Salvato", 
+            "Saved": "Salvato",
+            "Solution_hint": "Suggerimento della soluzione",
+            "No_solution_hint": "Nessun suggerimento della soluzione",
+            "Clue_array_not_found": "Array Clue non trovato nel codice!",
+            "Failed_to_parse_Clue_array": "Impossibile analizzare l'array Clue!",
+            "No_match_found_for_Clue_item": "Nessuna corrispondenza trovata per l'elemento Clue",
 
             "help_str1": "Questo add-on di Anki serve a semplificare la creazione di cruciverba realizzati con il programma gratuito https://www.eclipsecrossword.com/\nIl programma EclipseCrossword è disponibile solo per Windows, ma ti servirà solo una volta per generare il codice del cruciverba.",
-            "help_str2": "\nSe hai già un EclipseCrossword salvato come HTML con JavaScript, puoi aprire immediatamente l'ultima scheda e usare il pulsante 'Inserisci da file' per ottenere il codice del cruciverba.\nNel codice del cruciverba completato, controlla che 'Word = new Array();' sia vuoto, il che significa che le parole non sono salvate e non ci saranno suggerimenti.\nE alla fine del codice c'è 'OnlyCheckOnce = false;' - questo significa che puoi controllare le parole del cruciverba più volte, non solo una volta.",
+            "help_str2": "\nSe hai già un EclipseCrossword salvato come HTML con JavaScript, puoi aprire immediatamente l'ultima scheda e usare il pulsante 'Inserisci da file' per ottenere il codice del cruciverba.\nNel codice del cruciverba completato, controlla che 'Word = new Array();' sia vuoto, il che significa che le parole non sono salvate e non ci saranno suggerimenti.\nE alla fine del codice c'è 'OnlyCheckOnce = false;' - questo significa che puoi controllare le parole del cruciverba più volte, non solo una volta. Dalla versione 1.1, anche se l'elenco 'Word = new Array();' non è vuoto, è possibile scrivere 'Solve = false;' alla fine del codice e non ci saranno suggerimenti (ora ciò può essere fatto tramite pulsanti).",
             "help_str3": "\nIl cruciverba stesso appare sul retro della carta. Il fronte della carta può mostrare parole.\nLa scheda delle parole può essere vuota se non vuoi suggerimenti, oppure può contenere un semplice elenco di parole (o indizi).",
             "help_str4": "\nNella scheda delle parole, puoi inserire non solo parole ma anche parola==traduzione (indizio, definizione).\nScrivendo == salti la trascrizione, che non è necessaria in un cruciverba normale.\nPuoi fare clic sul pulsante per creare dati per la terza scheda o inserirli manualmente, poiché il formato non è complicato:\nparola:  indizio\n(nota: ci dovrebbero essere due spazi dopo i due punti).",
             "help_str5": "\nI dati dell'elenco di parole possono essere salvati in formato '*.ewl' e aperti con EclipseCrossword per generare un nuovo cruciverba, salvarlo come file '*.html' e quindi inserire il codice del cruciverba da questo file (pulsante nell'ultima scheda).",
@@ -590,7 +626,8 @@
             "var z_lang_back15": "Hai digitato troppe lettere. Lettere totali in questa parola",
             "var z_lang_back16": "Errori",
             "var z_lang_back17": "Parole incomplete",
-            "var z_lang_back18": "Termina"
+            "var z_lang_back18": "Termina",
+            "var z_lang_back19" : "Parole suggerite"            
         },                
         "pt": {
             "Unable_to_determine_active_field": "Não foi possível determinar o campo ativo.",
@@ -645,9 +682,14 @@
             "SaveErrorField": "Falha ao guardar campos: ",
             "Close": "Fechar",
             "Saved": "Guardado",
+            "Solution_hint": "Dica da solução",
+            "No_solution_hint": "Sem dica da solução",
+            "Clue_array_not_found": "Array Clue não encontrado no código!",
+            "Failed_to_parse_Clue_array": "Falha ao analisar o array Clue!",
+            "No_match_found_for_Clue_item": "Nenhuma correspondência encontrada para o item Clue",
 
             "help_str1": "Este add-on do Anki serve para simplificar a criação de palavras cruzadas construídas usando o programa gratuito https://www.eclipsecrossword.com/\nO programa EclipseCrossword é apenas para Windows, mas só precisará dele uma vez para gerar o código das palavras cruzadas.",
-            "help_str2": "\nSe já tiver um EclipseCrossword guardado como HTML com JavaScript, pode abrir imediatamente o último separador e usar o botão 'Inserir a partir de ficheiro' para obter o código das palavras cruzadas.\nNo código das palavras cruzadas pronto, verifique que 'Word = new Array();' está vazio, o que significa que as palavras não estão guardadas e não haverá pistas.\nE no final do código está 'OnlyCheckOnce = false;' - isto significa que pode verificar as palavras das palavras cruzadas múltiplas vezes, não apenas uma vez.",
+            "help_str2": "\nSe já tiver um EclipseCrossword guardado como HTML com JavaScript, pode abrir imediatamente o último separador e usar o botão 'Inserir a partir de ficheiro' para obter o código das palavras cruzadas.\nNo código das palavras cruzadas pronto, verifique que 'Word = new Array();' está vazio, o que significa que as palavras não estão guardadas e não haverá pistas.\nE no final do código está 'OnlyCheckOnce = false;' - isto significa que pode verificar as palavras das palavras cruzadas múltiplas vezes, não apenas uma vez. Desde a versão 1.1, mesmo que a lista 'Word = new Array();' não esteja vazia, pode escrever 'Solve = false;' no final do código e não haverá dicas (agora isto pode ser feito com botões).",
             "help_str3": "\nAs palavras cruzadas em si aparecem no verso do cartão. A frente do cartão pode mostrar palavras.\nO separador de palavras pode estar vazio se não quiser pistas, ou pode conter uma simples lista de palavras (ou dicas).",
             "help_str4": "\nNo separador de palavras, pode inserir não apenas palavras mas também palavra==tradução (dica, definição).\nAo escrever == está a saltar a transcrição, que não é necessária em palavras cruzadas normais.\nPode clicar no botão para criar dados para o terceiro separador ou inseri-los manualmente, pois o formato não é complicado:\npalavra:  dica\n(nota: devem existir dois espaços após os dois pontos).",
             "help_str5": "\nOs dados da lista de palavras podem ser guardados em formato '*.ewl' e abertos com o EclipseCrossword para gerar novas palavras cruzadas, guardar como ficheiro '*.html' e depois inserir o código das palavras cruzadas a partir deste ficheiro (botão no último separador).",
@@ -688,7 +730,8 @@
             "var z_lang_back15": "Digitou demasiadas letras. Total de letras nesta palavra",
             "var z_lang_back16": "Erros",
             "var z_lang_back17": "Palavras incompletas",
-            "var z_lang_back18": "Terminar"
+            "var z_lang_back18": "Terminar",
+            "var z_lang_back19" : "Palavras sugeridas"
         },
         "pt-BR": {
             "Unable_to_determine_active_field": "Não foi possível determinar o campo ativo.",
@@ -743,9 +786,14 @@
             "SaveErrorField": "Falha ao salvar campos: ",
             "Close": "Fechar",
             "Saved": "Salvo",
+            "Solution_hint": "Dica da solução",
+            "No_solution_hint": "Sem dica da solução",
+            "Clue_array_not_found": "Array Clue não encontrado no código!",
+            "Failed_to_parse_Clue_array": "Falha ao analisar o array Clue!",
+            "No_match_found_for_Clue_item": "Nenhuma correspondência encontrada para o item Clue",
 
             "help_str1": "Este complemento do Anki serve para simplificar a criação de palavras cruzadas construídas usando o programa gratuito https://www.eclipsecrossword.com/\nO programa EclipseCrossword é apenas para Windows, mas você só precisará dele uma vez para gerar o código das palavras cruzadas.",
-            "help_str2": "\nSe você já tem um EclipseCrossword salvo como HTML com JavaScript, pode abrir imediatamente a última aba e usar o botão 'Inserir do arquivo' para obter o código das palavras cruzadas.\nNo código pronto das palavras cruzadas, verifique se 'Word = new Array();' está vazio, o que significa que as palavras não são salvas e não haverá dicas.\nE no final do código está 'OnlyCheckOnce = false;' - isso significa que você pode verificar as palavras das palavras cruzadas várias vezes, não apenas uma vez.",
+            "help_str2": "\nSe você já tem um EclipseCrossword salvo como HTML com JavaScript, pode abrir imediatamente a última aba e usar o botão 'Inserir do arquivo' para obter o código das palavras cruzadas.\nNo código pronto das palavras cruzadas, verifique se 'Word = new Array();' está vazio, o que significa que as palavras não são salvas e não haverá dicas.\nE no final do código está 'OnlyCheckOnce = false;' - isso significa que você pode verificar as palavras das palavras cruzadas várias vezes, não apenas uma vez. Desde a versão 1.1, mesmo que a lista 'Word = new Array();' não esteja vazia, você pode escrever 'Solve = false;' no final do código e não haverá dicas (agora isso pode ser feito com botões).",
             "help_str3": "\nAs palavras cruzadas em si aparecem no verso do cartão. A frente do cartão pode mostrar palavras.\nA aba de palavras pode estar vazia se você não quiser dicas, ou pode conter uma simples lista de palavras (ou pistas).",
             "help_str4": "\nNa aba de palavras, você pode inserir não apenas palavras mas também palavra==tradução (dica, definição).\nAo escrever == você pula a transcrição, que não é necessária em palavras cruzadas comuns.\nVocê pode clicar no botão para criar dados para a terceira aba ou inserir manualmente, pois o formato não é complicado:\npalavra:  dica\n(observe que devem ter dois espaços após os dois pontos).",
             "help_str5": "\nOs dados da lista de palavras podem ser salvos no formato '*.ewl' e abertos com o EclipseCrossword para gerar novas palavras cruzadas, salvar como arquivo '*.html' e depois inserir o código das palavras cruzadas deste arquivo (botão na última aba).",
@@ -786,7 +834,8 @@
             "var z_lang_back15": "Você digitou letras demais. Total de letras nesta palavra",
             "var z_lang_back16": "Erros",
             "var z_lang_back17": "Palavras incompletas",
-            "var z_lang_back18": "Finalizar"
+            "var z_lang_back18": "Finalizar",
+            "var z_lang_back19" : "Palavras sugeridas"
         }
     }
 }

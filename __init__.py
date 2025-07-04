@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Crossword for EclipseCrossword
 # https://github.com/AndreyKaiu/Anki_Crossword-for-EclipseCrossword
-# Version 1.0, date: 2025-07-01
+# Version 1.1, date: 2025-07-04
 from aqt.qt import *
 from aqt.editor import Editor
 from aqt.browser.browser import Browser
@@ -30,12 +30,14 @@ try:
     from PyQt6.QtWebEngineWidgets import QWebEngineView
     from PyQt6.QtCore import Qt, QObject, QTimer, QRegularExpression, QUrl
     from PyQt6.QtWebChannel import QWebChannel
+    from PyQt6.QtGui import QFont, QFontDatabase
     pyqt_version = "PyQt6"
 except ImportError:
     from PyQt5.QtWidgets import QApplication, QVBoxLayout, QDialog, QMessageBox, QMainWindow     
     from PyQt5.QtWebEngineWidgets import QWebEngineView
     from PyQt5.QtCore import Qt, QObject, QTimer, QRegExp, QUrl
     from PyQt5.QtWebChannel import QWebChannel   
+    from PyQt5.QtGui import QFont, QFontDatabase
     pyqt_version = "PyQt5"
 
 
@@ -85,7 +87,6 @@ def localizationF(par1, default=""):
 
 
 dialog = None
-gEditor = None
 browserS = None
 
 
@@ -95,8 +96,7 @@ def browser_show(browser):
 
 
 def show_image_dialog(self): 
-    global dialog
-    global gEditor
+    global dialog      
     
     # Обязательные поля и их назначение
     REQUIRED_FIELDS = {
@@ -151,11 +151,11 @@ def show_image_dialog(self):
         showInfo(locF)
         return
     
-    deck_id = gEditor.note.cards()[0].did if gEditor.note.cards() else gEditor.mw.col.decks.selected()
+    deck_id = self.note.cards()[0].did if self.note.cards() else self.mw.col.decks.selected()
 
     # Создаем диалоговое окно
     dialog = QDialog(self.widget)
-    locF = localizationF("WindowTitle", "Crossword for EclipseCrossword")
+    locF = self.note["Title"] + " - " + localizationF("WindowTitle", "Crossword for EclipseCrossword")
     dialog.setWindowTitle(locF)
     
     if pyqt_version == "PyQt6":
@@ -207,6 +207,7 @@ def show_image_dialog(self):
 
     word_text = QTextEdit()
     raw_text = re.sub(r'<br\s*/?>', '\n', self.note["word=transcription=translation=example=extranslation"], flags=re.IGNORECASE)      
+    raw_text = raw_text.replace("\n\n", "\n")
     word_text.setPlainText(BeautifulSoup(raw_text, "html.parser").get_text())
     word_scroll = QScrollArea()
     word_scroll.setWidget(word_text)
@@ -289,7 +290,8 @@ def show_image_dialog(self):
     hint_layout.addWidget(hint_label)
 
     hint_text = QTextEdit()        
-    raw_text = re.sub(r'<br\s*/?>', '\n', self.note["Word_hint (file-type ewl)"], flags=re.IGNORECASE)      
+    raw_text = re.sub(r'<br\s*/?>', '\n', self.note["Word_hint (file-type ewl)"], flags=re.IGNORECASE)   
+    raw_text = raw_text.replace("\n\n", "\n")   
     hint_text.setPlainText(BeautifulSoup(raw_text, "html.parser").get_text())
     hint_scroll = QScrollArea()
     hint_scroll.setWidget(hint_text)
@@ -317,6 +319,10 @@ def show_image_dialog(self):
     code_layout.addWidget(code_label)
 
     code_text = QTextEdit()    
+    # Установка моноширинного шрифта
+    fixed_font = QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont)
+    fixed_font.setPointSize(10) 
+    code_text.setFont(fixed_font)
     raw_text = self.note["Crossword_code"]    
     raw_text = raw_text.replace('\n','')
     raw_text = raw_text.replace('\r','')
@@ -340,6 +346,13 @@ def show_image_dialog(self):
     code_buttons_layout.addWidget(paste_html_btn)
     code_layout.addLayout(code_buttons_layout)
 
+    code_buttons2_layout = QHBoxLayout()
+    solveYes_btn = QPushButton(localizationF("Solution_hint", "Solution hint"))    
+    code_buttons2_layout.addWidget(solveYes_btn)
+    solveNo_btn = QPushButton(localizationF("No_solution_hint", "No solution hint"))
+    code_buttons2_layout.addWidget(solveNo_btn)
+    code_layout.addLayout(code_buttons2_layout)
+
     code_tab.setLayout(code_layout)
     tab_widget.addTab(code_tab, localizationF("CodeTab", "Crossword сode"))
 
@@ -347,7 +360,171 @@ def show_image_dialog(self):
     tab_widget.setCurrentIndex( get_tab_index(field) ) 
 
 
+
+    def extract_crossword_params(code_lines):
+        params = {
+            'width': None,
+            'height': None,
+            'word_lengths': None,
+            'word_x': None,
+            'word_y': None,
+            'last_horizontal': None
+        }
+        
+        for line in code_lines:
+            line = line.strip()            
+            if line.startswith('CrosswordWidth ='):
+                params['width'] = int(line.split('=')[1].replace(';', '').strip())            
+            elif line.startswith('CrosswordHeight ='):
+                params['height'] = int(line.split('=')[1].replace(';', '').strip())                
+            elif line.startswith('WordLength = new Array('):
+                arr_str = line.split('(', 1)[1].rsplit(')', 1)[0]
+                params['word_lengths'] = [int(x.strip()) for x in arr_str.split(',')]                
+            elif line.startswith('WordX = new Array('):
+                arr_str = line.split('(', 1)[1].rsplit(')', 1)[0]
+                params['word_x'] = [int(x.strip()) for x in arr_str.split(',')]                
+            elif line.startswith('WordY = new Array('):
+                arr_str = line.split('(', 1)[1].rsplit(')', 1)[0]
+                params['word_y'] = [int(x.strip()) for x in arr_str.split(',')]                
+            elif line.startswith('LastHorizontalWord ='):
+                params['last_horizontal'] = int(line.split('=')[1].replace(';', '').strip())        
+        return params
+
+
+    def draw_crossword(code_lines):
+        params = extract_crossword_params(code_lines)        
+        width = params['width']
+        height = params['height']
+        word_lengths = params['word_lengths']
+        word_x = params['word_x']
+        word_y = params['word_y']
+        last_horizontal = params['last_horizontal']
+
+        # Создаем пустую сетку
+        grid = [['·' for _ in range(width)] for _ in range(height)]
+
+        # Заполняем горизонтальные слова (первые last_horizontal+1 слов)
+        for i in range(last_horizontal + 1):
+            x = word_x[i]
+            y = word_y[i]
+            length = word_lengths[i]
+            for dx in range(length):
+                if x + dx < width:
+                    grid[y][x + dx] = 'X'
+
+        # Заполняем вертикальные слова (остальные слова)
+        for i in range(last_horizontal + 1, len(word_x)):
+            x = word_x[i]
+            y = word_y[i]
+            length = word_lengths[i]
+            for dy in range(length):
+                if y + dy < height:
+                    grid[y + dy][x] = 'X'
+
+        # Формируем текстовое представление
+        crossword_text = "/*;\n"
+        for row in grid:
+            crossword_text += '// ' + ' '.join(row) + '  ;\n'
+        crossword_text += "*/;"
+        
+        return crossword_text
+
+    
+
+
+    def setup_solution_buttons():
+        solveYes_btn.clicked.connect(lambda: update_solve_status(True))
+        solveNo_btn.clicked.connect(lambda: update_solve_status(False))
+
+    def update_solve_status(solve_status):
+        code_text_PT = code_text.toPlainText()       
+        word_array_str = [] 
+        # Проверяем и заполняем пустой массив Word
+        if "Word = new Array();" in code_text_PT:
+            word_array_str = fill_empty_word_array()
+            if not word_array_str:
+                return  # Если не удалось заполнить - выходим        
+        # Обновляем/добавляем Solve
+        solve_line = f"Solve = {str(solve_status).lower()};"           
+        code_lines = code_text_PT.splitlines()
+        if word_array_str != []:
+            # Удаляем старую строку Solve (если есть) и Word = new (если есть) и комментарии 
+            code_lines = [line for line in code_lines if not( line.strip().startswith("Solve =")
+                                                              or line.strip().startswith("Word = new") or line.strip().startswith("//") or line.strip().startswith("/*") or line.strip().startswith("*/") ) ]
+            # Добавляем новую строку Word = new
+            code_lines.append(word_array_str) 
+        else:
+            # Удаляем старую строку Solve (если есть) и комментарии
+            code_lines = [line for line in code_lines if not( line.strip().startswith("Solve =") 
+                                                             or line.strip().startswith("//") or line.strip().startswith("/*") or line.strip().startswith("*/") ) ]      
+        # Добавляем новую строку Solve
+        code_lines.append(solve_line)
+        # Добавляем вид кроссворда внешний
+        code_lines.insert(0, draw_crossword(code_lines) )
+        updated_code = "\n".join(code_lines)        
+        code_text.setPlainText(updated_code)
+        
+
+
+
+
+    def fill_empty_word_array():
+        # Получаем текст с подсказками
+        hint_text_PT= hint_text.toPlainText()        
+        # Парсим массив Clue (если он определен в коде)
+        clue_match = re.search(r'Clue\s*=\s*new\s*Array\(([^)]*)\);', code_text.toPlainText())
+        if not clue_match:            
+            QMessageBox.warning(dialog,
+                                localizationF("Error", "Error"),
+                                localizationF("Clue_array_not_found", "Clue array not found in the code!"))
+            return False        
+        try:
+            # Извлекаем элементы Clue (удаляем кавычки и лишние пробелы)
+            clue_str = clue_match.group(1)    
+            # Заменяем '", "' на '","' для единообразного разделителя
+            clue_str = clue_str.replace('", "', '","')
+            # Разбиваем строку по '","' и очищаем элементы
+            clue_items = [item.strip().strip('"') for item in clue_str.split('","')]    
+            # Удаляем возможные оставшиеся кавычки в первом и последнем элементах
+            if clue_items:
+                clue_items[0] = clue_items[0].lstrip('"')
+                clue_items[-1] = clue_items[-1].rstrip('"')            
+        except:            
+            QMessageBox.warning(dialog,
+                                localizationF("Error", "Error"),
+                                localizationF("Failed_to_parse_Clue_array", "Failed to parse 'Clue' array!"))
+            return False
+        
+        # Парсим hint_text (формат "слово:  подсказка")
+        word_hint_pairs = []
+        for line in hint_text_PT.splitlines():
+            if ":  " in line:
+                word, hint = line.split(":  ", 1)
+                word_hint_pairs.append((word.strip(), hint.strip()))
+        
+        # Сопоставляем Clue с hint_text
+        word_array_items = []
+        for clue_first_word in clue_items:
+            found = False
+            for word, hint in word_hint_pairs:                
+                if clue_first_word.strip().lower() == hint.strip().lower():
+                    word_array_items.append(f'"{word}"')
+                    found = True
+                    break
+            
+            if not found:                
+                QMessageBox.warning(dialog,
+                                localizationF("Error", "Error"),
+                                localizationF("No_match_found_for_Clue_item", "No match found for Clue item") + f": {clue_first_word}")
+                return False
+        
+        # Обновляем массив Word в коде
+        word_array_str = f'Word = new Array({", ".join(word_array_items)});'       
+
+        return word_array_str
       
+
+    setup_solution_buttons()
 
 
     def add_from_txt():
@@ -751,8 +928,6 @@ def show_image_dialog(self):
 
 
 def setup_image_button(buttons, editor):
-    global gEditor
-    gEditor = editor 
     locF = localizationF("Crossword_for_EclipseCrossword", "Crossword for EclipseCrossword")
     image_button = editor.addButton(
         icon=None,
@@ -822,7 +997,7 @@ gui_hooks.browser_will_show.append(browser_show)
 def create_note_type_if_not_exists():    
     col = mw.col
     models = col.models    
-    name = "Crossword (v1.0)"
+    name = "Crossword (v1.1)"
     if models.by_name(name):
         return
 
