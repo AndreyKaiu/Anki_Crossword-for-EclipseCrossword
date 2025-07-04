@@ -1,21 +1,25 @@
 # Anki_Crossword-for-EclipseCrossword
 Add-on for the Anki program. Creating a crossword for Anki (generation so far only with the free program [EclipseCrossword](https://www.eclipsecrossword.com/) ).
 
-![Crossword1_0_1](https://github.com/user-attachments/assets/c03b464b-898f-474e-8103-b0ae88943b60)
+![Crossword1_1_4](https://github.com/user-attachments/assets/3a75c3ce-b9bc-4d2d-9367-fe4dece38ec6)
 
-![Crossword1_0_2](https://github.com/user-attachments/assets/94c2a84b-8882-4e58-a818-e5b79567b901)
+![Crossword1_1_3](https://github.com/user-attachments/assets/a91c5163-7eda-4e38-b31c-569a1ddabcae)
 
-![Crossword1_0_3](https://github.com/user-attachments/assets/5ebeb497-197a-48a1-9b1d-9d4d6d2fd132)
+![Crossword1_1_2](https://github.com/user-attachments/assets/56828f13-d3d2-41b0-b82d-bbf3f9b19866)
+
+![Crossword1_1_1](https://github.com/user-attachments/assets/fe82edda-10ed-4a49-8948-7e134bde6026)
+
 
 You will find the test deck (.apkg file) in the folder with the add-on or via the link [https://ankiweb.net/shared/info/1204327392](https://ankiweb.net/shared/info/1204327392)
 
-![Crossword1_0_4](https://github.com/user-attachments/assets/3cf08bda-a285-4417-b776-85bf31c05f58)
+![Crossword1_1_8](https://github.com/user-attachments/assets/8e6db676-2b7c-4c27-be3a-7b0f8d806c15)
 
-![Crossword1_0_5](https://github.com/user-attachments/assets/a764e856-8671-449a-a807-7b569e894fc3)
+![Crossword1_1_7](https://github.com/user-attachments/assets/4af5cc72-3e00-4fda-8848-41de3cd419d0)
 
-![Crossword1_0_6](https://github.com/user-attachments/assets/c81e4105-b66f-4d1c-a048-d3d2f1dc0901)
+![Crossword1_1_6](https://github.com/user-attachments/assets/cd5f801d-9b3b-4c2a-85de-e51c5bb0a63e)
 
-![Crossword1_0_7](https://github.com/user-attachments/assets/f9ebac61-a441-4cf3-a813-6be2a6406dfd)
+![Crossword1_1_5](https://github.com/user-attachments/assets/229576b1-70e7-48c1-904c-1606ebcd0832)
+
 
 
 **CONTENTS OF THE HELP TAB**
@@ -25,7 +29,7 @@ The EclipseCrossword program is Windows-only, but you'll only need it once to ge
 
 If you already have an EclipseCrossword saved as HTML with JavaScript, you can immediately open the last tab and use the 'Insert from file' button to get the crossword code.
 In the ready crossword code, check that 'Word = new Array();' is empty, meaning the words aren't saved and there will be no hints.
-And at the end of the code there's 'OnlyCheckOnce = false;' - this means you can check the crossword words multiple times, not just once.
+And at the end of the code there's 'OnlyCheckOnce = false;' - this means you can check the crossword words multiple times, not just once. Since version 1.1, even if the list “Word = new Array();” is not empty, you can write “Solve = false;” at the end of the code and there will be no hints either (this can now be done with buttons).
 
 The crossword itself appears on the back of the card. The front of the card can show words.
 The words tab can be empty if you don't want any hints, or it can contain a simple word list (or clues).
@@ -54,6 +58,7 @@ When a word has an example, you can create a word list with examples (there's a 
 I don't get notified of your reviews, and properly troubleshooting an issue through them is nearly impossible. Instead, please either use the [issue tracker (preferred),](https://github.com/AndreyKaiu/Anki_Crossword-for-EclipseCrossword/issues) add-on [support forums](https://forums.ankiweb.net/t/add-ons-simple-image-occlusion-official-support/60307), or just message me at [andreykaiu@gmail.com.](mailto:andreykaiu@gmail.com) Constructive feedback and suggestions are always welcome!
 
 **VERSIONS**
+- 1.1, date: 2025-07-04. Bugs fixed. The entry type now has a name with the new version "Crossword (v1.1)". Two buttons have been created: set hints and do not set. At the same time, comments are created for viewing the crossword form (easier and faster to distinguish this way), a list of words "Word =" is created. If someone used hints, then at the end it will be said about it, well, and the fireworks at the end will not be shown to him. If when typing a word some letter is already known and you did not type it, then the background of the input line will be set to pink to warn you about it.
 - 1.0, date: 2025-07-01. First release
 
 **SPECIAL THANKS**
