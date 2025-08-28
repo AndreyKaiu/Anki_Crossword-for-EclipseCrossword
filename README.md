@@ -60,6 +60,14 @@ When a word has an example, you can create a word list with examples (there's a 
 I don't get notified of your reviews, and properly troubleshooting an issue through them is nearly impossible. Instead, please either use the [issue tracker (preferred),](https://github.com/AndreyKaiu/Anki_Crossword-for-EclipseCrossword/issues) add-on [support forums](https://forums.ankiweb.net/t/add-ons-simple-image-occlusion-official-support/60307), or just message me at [andreykaiu@gmail.com.](mailto:andreykaiu@gmail.com) Constructive feedback and suggestions are always welcome!
 
 **VERSIONS**
+- 1.2, date: 2025-08-28.
+   - By default, a space has been added to the symbol buttons.
+   - Fixed the error of displaying a word with a space when you have already entered it and want to see it again.
+   - Previously, the system keyboard was not shown for Android, but now it is possible in the case of repeated input, when you need to edit (the word must be longer than 7 characters and entered the full length).
+   - The ability to view a list of words that were suggested at the end of solving the crossword.
+   - The ability to select the desired number of words, mix them, sort them.
+   - The ability to replace the UTF-8 character with ANSI, so that it can be processed in the EclipseCrossword program.
+   - Fixed other minor errors. 
 - 1.1, date: 2025-07-04. Bugs fixed. The entry type now has a name with the new version "Crossword (v1.1)". Two buttons have been created: set hints and do not set. At the same time, comments are created for viewing the crossword form (easier and faster to distinguish this way), a list of words "Word =" is created. If someone used hints, then at the end it will be said about it, well, and the fireworks at the end will not be shown to him. If when typing a word some letter is already known and you did not type it, then the background of the input line will be set to pink to warn you about it.
 - 1.0, date: 2025-07-01. First release
 
