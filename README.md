@@ -3,13 +3,13 @@ Add-on for the Anki program. Creating a crossword for Anki (generation so far on
 
 Attention! If you downloaded version 1.1, then please note that you need to select the type "Crossword (v1.2)" to create records.
 
-![Crossword1_1_4](https://github.com/user-attachments/assets/3a75c3ce-b9bc-4d2d-9367-fe4dece38ec6)
-
-![Crossword1_1_3](https://github.com/user-attachments/assets/a91c5163-7eda-4e38-b31c-569a1ddabcae)
+![Crossword1_1_1](https://github.com/user-attachments/assets/fe82edda-10ed-4a49-8948-7e134bde6026)
 
 ![Crossword1_1_2](https://github.com/user-attachments/assets/56828f13-d3d2-41b0-b82d-bbf3f9b19866)
 
-![Crossword1_1_1](https://github.com/user-attachments/assets/fe82edda-10ed-4a49-8948-7e134bde6026)
+![2025_08_28_Cross_3](https://github.com/user-attachments/assets/2803b2d3-63f4-4f3d-a05e-2917df7fdb97)
+
+![2025_08_28_Cross_4](https://github.com/user-attachments/assets/c010400f-8812-42a3-8af7-53f760a767ee)
 
 
 You will find the test deck (.apkg file) in the folder with the add-on or via the link [https://ankiweb.net/shared/info/1204327392](https://ankiweb.net/shared/info/1204327392)
