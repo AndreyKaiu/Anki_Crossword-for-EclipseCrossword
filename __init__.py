@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Crossword for EclipseCrossword
 # https://github.com/AndreyKaiu/Anki_Crossword-for-EclipseCrossword
-# Version 1.1, date: 2025-07-04
+# Version 1.2, date: 2025-08-28
 from aqt.qt import *
 from aqt.editor import Editor
 from aqt.browser.browser import Browser
@@ -13,6 +13,7 @@ import json
 import os
 import shutil
 import time
+import random
 from aqt.addcards import AddCards
 from html import escape
 
@@ -308,8 +309,139 @@ def show_image_dialog(self):
     hint_buttons_layout.addWidget(save_ewl_btn)
     hint_layout.addLayout(hint_buttons_layout)
 
+
+    # Nstr input and buttons
+    nstr_layout = QHBoxLayout()
+    nstr_label = QLabel("Nstr=")
+    nstr_layout.addWidget(nstr_label)
+
+    nstr_input = QLineEdit("20")
+    nstr_input.setMaxLength(3)  # Ограничение на 3 символа
+    nstr_input.setFixedWidth(40)  # Фиксированная ширина поля    
+    nstr_layout.addWidget(nstr_input)    
+    
+    Nstrok_btn = QPushButton("OK")
+    nstr_layout.addWidget(Nstrok_btn)
+
+    # Код для кнопки OK
+    def handle_ok_button():        
+        try:
+            max_lines = int(nstr_input.text())
+        except ValueError:
+            return  # Если введено не число, ничего не делаем
+                
+        text = hint_text.toPlainText()
+        lines = text.split('\n')    
+        # Удаляем пустые строки
+        lines = [line for line in lines if line.strip()]
+
+        # Оставляем только первые max_lines строк
+        new_text = '\n'.join(lines[:max_lines])
+        hint_text.setPlainText(new_text)
+        
+        # if len(lines) > max_lines:
+        #     # Оставляем только первые max_lines строк
+        #     new_text = '\n'.join(lines[:max_lines])
+        #     hint_text.setPlainText(new_text)
+
+    Nstrok_btn.clicked.connect(handle_ok_button)
+
+
+    rnd_btn = QPushButton("RND")
+    nstr_layout.addWidget(rnd_btn)
+
+    sort_btn = QPushButton("SORT A-Z")
+    nstr_layout.addWidget(sort_btn)
+
+    nstr_layout.addStretch()  # Растягиваемое пространство
+    hint_layout.addLayout(nstr_layout)
+
+
+    def handle_rnd_button():
+        text = hint_text.toPlainText()
+        lines = text.split('\n')    
+        # Удаляем пустые строки
+        lines = [line for line in lines if line.strip()]
+     
+        # Создаем список индексов и перемешиваем его
+        indices = list(range(len(lines)))
+        random.shuffle(indices)        
+        # Переставляем строки согласно перемешанным индексам
+        shuffled_lines = []
+        for i in indices:
+            shuffled_lines.append(lines[i])        
+        # Объединяем обратно в текст
+        new_text = '\n'.join(shuffled_lines)
+        hint_text.setPlainText(new_text)
+
+    rnd_btn.clicked.connect(handle_rnd_button)
+
+
+    def handle_sort_button():
+        text = hint_text.toPlainText()
+        lines = text.split('\n')        
+        # Удаляем пустые строки и сортируем оставшиеся
+        non_empty_lines = [line for line in lines if line.strip()]
+        sorted_lines = sorted(non_empty_lines)        
+        # Объединяем обратно в текст
+        new_text = '\n'.join(sorted_lines)
+        hint_text.setPlainText(new_text)
+
+    sort_btn.clicked.connect(handle_sort_button)
+
+
+    # UTF-ANSI section
+    utf_layout = QHBoxLayout()
+    utf_label = QLabel("UTF=ANSI:")
+    utf_layout.addWidget(utf_label)
+
+    utf_input = QLineEdit()
+    utf_input.setMinimumWidth(200)  # Минимальная ширина поля
+    utf_layout.addWidget(utf_input)
+
+    def save_utf_input(txt):
+        """Сохранить строку замен UTF=ANSI"""
+        try:
+            # Путь к meta.json
+            addon_dir = Path(mw.addonManager.addonsFolder()) / __name__ 
+            meta_path = addon_dir / "meta.json"
+            if meta_path.exists():
+                original_mtime = os.path.getmtime(meta_path) # Сохраняем старую дату модификации
+                with open(meta_path, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+                    with open(meta_path, "w", encoding="utf-8") as f:                    
+                        meta["ReplUTFtoANSI"] = txt
+                        json.dump(meta, f, ensure_ascii=False, indent=4)                                              
+                os.utime(meta_path, (original_mtime, original_mtime))  # Восстанавливаем дату модификации
+        except Exception as e:          
+            print("save_utf_input Error: ", e)
+              
+
+    def load_utf_input():
+        """Загрузить строку UTF->ANSI"""
+        try:
+            # Путь к meta.json
+            addon_dir = Path(mw.addonManager.addonsFolder()) / __name__ 
+            meta_path = addon_dir / "meta.json"
+            if meta_path.exists():
+                with open(meta_path, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+                    return meta.get("ReplUTFtoANSI", "")
+            return "" 
+        except Exception as e:          
+            return ""
+     
+    get_utf_input = load_utf_input() 
+    utf_input.setText( get_utf_input )
+
+
+    hint_layout.addLayout(utf_layout)
+
+
     hint_tab.setLayout(hint_layout)
     tab_widget.addTab(hint_tab, localizationF("HintTab", "Word:  Hint"))
+
+    
 
     # 4. Вкладка Crossword Code
     code_tab = QWidget()
@@ -347,10 +479,13 @@ def show_image_dialog(self):
     code_layout.addLayout(code_buttons_layout)
 
     code_buttons2_layout = QHBoxLayout()
+    repl_utf_btn = QPushButton("REPL ClueArray ANSI->UTF")
+    code_buttons2_layout.addWidget(repl_utf_btn)
     solveYes_btn = QPushButton(localizationF("Solution_hint", "Solution hint"))    
     code_buttons2_layout.addWidget(solveYes_btn)
     solveNo_btn = QPushButton(localizationF("No_solution_hint", "No solution hint"))
     code_buttons2_layout.addWidget(solveNo_btn)
+
     code_layout.addLayout(code_buttons2_layout)
 
     code_tab.setLayout(code_layout)
@@ -359,6 +494,9 @@ def show_image_dialog(self):
     # активная вкладка зависит от поля
     tab_widget.setCurrentIndex( get_tab_index(field) ) 
 
+
+
+    
 
 
     def extract_crossword_params(code_lines):
@@ -443,7 +581,31 @@ def show_image_dialog(self):
         if "Word = new Array();" in code_text_PT:
             word_array_str = fill_empty_word_array()
             if not word_array_str:
-                return  # Если не удалось заполнить - выходим        
+                return  # Если не удалось заполнить - выходим    
+        # если нашли просто Word = new Array( то удалим все до );
+        elif "Word = new Array(" in code_text_PT:
+                # Нашли заполненный массив - сначала удаляем его
+                start_index = code_text_PT.find("Word = new Array(")
+                end_index = code_text_PT.find(");", start_index) + 2  # +2 чтобы включить ");"          
+                # Проверяем, есть ли перевод строки после );
+                if end_index < len(code_text_PT) and code_text_PT[end_index] == '\n':
+                    end_index += 1  # Удаляем и перевод строки
+                elif end_index < len(code_text_PT) and code_text_PT[end_index:end_index+2] == '\r\n':
+                    end_index += 2  # Удаляем Windows-style перевод строки (\r\n)                        
+                if end_index > start_index:
+                    # Удаляем старый массив
+                    code_text_PT = code_text_PT[:start_index] + code_text_PT[end_index:]
+
+                word_array_str = fill_empty_word_array()
+                if not word_array_str:
+                    return  # Если не удалось заполнить - выходим  
+        # если вообще не нашли
+        else:
+            word_array_str = fill_empty_word_array()
+            if not word_array_str:
+                return  # Если не удалось заполнить - выходим  
+            
+
         # Обновляем/добавляем Solve
         solve_line = f"Solve = {str(solve_status).lower()};"           
         code_lines = code_text_PT.splitlines()
@@ -463,7 +625,7 @@ def show_image_dialog(self):
         code_lines.insert(0, draw_crossword(code_lines) )
         updated_code = "\n".join(code_lines)        
         code_text.setPlainText(updated_code)
-        
+        UpdateAnswerHash()
 
 
 
@@ -471,13 +633,16 @@ def show_image_dialog(self):
     def fill_empty_word_array():
         # Получаем текст с подсказками
         hint_text_PT= hint_text.toPlainText()        
+        
         # Парсим массив Clue (если он определен в коде)
-        clue_match = re.search(r'Clue\s*=\s*new\s*Array\(([^)]*)\);', code_text.toPlainText())
+        clue_match = re.search(r'\s*Clue\s*=\s*new\s*Array\((.*"\s*)\);', code_text.toPlainText())
+        
         if not clue_match:            
             QMessageBox.warning(dialog,
                                 localizationF("Error", "Error"),
                                 localizationF("Clue_array_not_found", "Clue array not found in the code!"))
             return False        
+        
         try:
             # Извлекаем элементы Clue (удаляем кавычки и лишние пробелы)
             clue_str = clue_match.group(1)    
@@ -495,6 +660,8 @@ def show_image_dialog(self):
                                 localizationF("Failed_to_parse_Clue_array", "Failed to parse 'Clue' array!"))
             return False
         
+        
+        
         # Парсим hint_text (формат "слово:  подсказка")
         word_hint_pairs = []
         for line in hint_text_PT.splitlines():
@@ -508,7 +675,8 @@ def show_image_dialog(self):
             found = False
             for word, hint in word_hint_pairs:                
                 if clue_first_word.strip().lower() == hint.strip().lower():
-                    word_array_items.append(f'"{word}"')
+                    wordUP = word.upper()
+                    word_array_items.append(f'"{wordUP}"')
                     found = True
                     break
             
@@ -520,7 +688,7 @@ def show_image_dialog(self):
         
         # Обновляем массив Word в коде
         word_array_str = f'Word = new Array({", ".join(word_array_items)});'       
-
+        
         return word_array_str
       
 
@@ -701,6 +869,8 @@ def show_image_dialog(self):
     # Функция сохранения в EWL файл
     def save_ewl_file():
         hint_content = hint_text.toPlainText()
+
+        save_utf_input( utf_input.text().strip() )
         
         if not hint_content.strip():
             QMessageBox.warning(dialog, 
@@ -709,12 +879,26 @@ def show_image_dialog(self):
             return
         
         # Диалог выбора кодировки
-        encodings = [
-            ('UTF-8', 'utf-8'),
-            ('Windows-1251 (Cyrillic)', 'windows-1251'),
+        encodings = [            
+            ('Windows-1251 (Cyrillic)', 'windows-1251'),            
             ('Windows-1252 (Western)', 'windows-1252'),
-            ('ISO-8859-1', 'iso-8859-1'),
-            ('UTF-16', 'utf-16')            
+            ('ISO-8859-1 (Latin-1)', 'iso-8859-1'),
+            ('ISO-8859-2 (Latin-2)', 'iso-8859-2'),
+            ('ISO-8859-3 (Latin-3)', 'iso-8859-3'),
+            ('ISO-8859-4 (Latin-4)', 'iso-8859-4'),
+            ('ISO-8859-5 (Latin/Cyrillic)', 'iso-8859-5'),
+            ('ISO-8859-6 (Latin/Arabic)', 'iso-8859-6'),
+            ('ISO-8859-7 (Latin/Greek)', 'iso-8859-7'),
+            ('ISO-8859-8 (Latin/Hebrew)', 'iso-8859-8'),
+            ('ISO-8859-9 ((Latin-5))', 'iso-8859-9'),
+            ('ISO-8859-10 (Latin-6)', 'iso-8859-10'),
+            ('ISO-8859-11 (Latin/Thai)', 'iso-8859-11'),            
+            ('ISO-8859-13 (Latin-7)', 'iso-8859-13'),
+            ('ISO-8859-14 (Latin-8)', 'iso-8859-14'),
+            ('ISO-8859-15 (Latin-9)', 'iso-8859-15'),
+            ('ISO-8859-16 (Latin-10)', 'iso-8859-16'),
+            ('UTF-8 (no warranty)', 'utf-8'), 
+            ('UTF-16 (no warranty)', 'utf-16')            
         ]
         
         encoding, ok = QInputDialog.getItem(
@@ -722,7 +906,7 @@ def show_image_dialog(self):
             localizationF("SelectEncoding", "Select File Encoding"),
             localizationF("ChooseEncoding", "Choose text encoding:"),
             [e[0] for e in encodings],
-            0,  # индекс по умолчанию (UTF-8)
+            0,  # индекс по умолчанию (windows-1251)
             False  # не редактируемый
         )
         
@@ -731,6 +915,67 @@ def show_image_dialog(self):
         
         # Получаем значение кодировки
         encoding_value = next((e[1] for e in encodings if e[0] == encoding), 'utf-8')
+
+        
+
+        # Получаем таблицу замен из utf_input
+        replacement_map = {}
+        replacements_text = utf_input.text().strip()
+        
+        # Разбираем пары замен
+        if replacements_text:
+            pairs = replacements_text.replace(';', ' ').split()
+            for pair in pairs:
+                if '=' in pair:
+                    utf_char, ansi_char = pair.split('=', 1)
+                    replacement_map[utf_char] = ansi_char
+        
+        new_replacements = set()  # Используем SET вместо list для уникальности
+        has_replacements = False
+        has_new_symbols = False
+        
+        encoded_content = ""
+        
+        for char in hint_content:
+            try:
+                char.encode(encoding_value)
+                encoded_content += char
+            except UnicodeEncodeError:
+                has_replacements = True
+                
+                if char in replacement_map:
+                    encoded_content += replacement_map[char]
+                else:
+                    # Проверяем, не добавляли ли уже этот символ в текущей сессии
+                    if char not in new_replacements:
+                        new_replacements.add(char)  # Добавляем в SET (уникальные)
+                        has_new_symbols = True
+                    
+                    encoded_content += '?'  # Временная замена
+        
+        # Если найдены новые символы, добавляем их в utf_input
+        if has_new_symbols:
+            current_text = utf_input.text().strip()
+            new_pairs = []
+            
+            # Добавляем только уникальные символы
+            for char in new_replacements:
+                new_pairs.append(f"{char}=?")
+            
+            if current_text:
+                new_text = current_text + " " + " ".join(new_pairs)
+            else:
+                new_text = " ".join(new_pairs)
+            
+            utf_input.setText(new_text)
+
+
+
+        if has_new_symbols:
+            locF = "SaveError! UTF=ANSI: char=? "    
+            tooltip(f"<p style='color: yellow; background-color: black'>{locF}</p>")
+            return  # найдены новые has_new_symbols
+
         
         # Диалог сохранения файла
         file_dialog = QFileDialog()
@@ -747,7 +992,8 @@ def show_image_dialog(self):
             
             try:
                 with open(file_path, 'w', encoding=encoding_value) as f:
-                    f.write(hint_content)
+                    encoded_content_decode = encoded_content.encode(encoding_value, errors='replace').decode(encoding_value)
+                    f.write(encoded_content_decode)
                 
                 # QMessageBox.information(dialog,
                 #                     localizationF("Success", "Success"),
@@ -762,6 +1008,28 @@ def show_image_dialog(self):
 
     # Привязываем функцию к кнопке
     save_ewl_btn.clicked.connect(save_ewl_file)
+
+
+
+    def advanced_clean_js_code(js_code):        
+        # Удаляем пробелы и переводы строк вокруг запятых
+        cleaned = re.sub(r'\s*,\s*(\n\s*)*', ', ', js_code)
+        # Удаляем пробелы в начале и конце строк
+        cleaned = re.sub(r'^\s+|\s+$', '', cleaned, flags=re.MULTILINE)
+        # Удаляем множественные пробелы
+        cleaned = re.sub(r'[ \t]{2,}', ' ', cleaned)
+
+        # Убираем лишние переводы строк в массивах
+        cleaned = re.sub(r'\[\s*\n\s*', '[', cleaned)
+        cleaned = re.sub(r'\s*\n\s*\]', ']', cleaned)
+        # cleaned = re.sub(r'\(\s*\n\s*', '(', cleaned)
+        # cleaned = re.sub(r'\s*\n\s*\)', ')', cleaned)
+        cleaned = re.sub(r',\s*\n\s*', ', ', cleaned)
+
+        # Нормализуем переводы строк
+        cleaned = re.sub(r'\r\n', '\n', cleaned)  # Унифицируем переводы строк
+        cleaned = re.sub(r'\n{2,}', '\n', cleaned)  # Удаляем лишние пустые строки
+        return cleaned
 
 
     def paste_from_html():
@@ -803,7 +1071,8 @@ def show_image_dialog(self):
             js_code = html_content[start_idx:end_idx].strip()
             
             # Вставляем в поле Crossword_code
-            code_text.setPlainText(js_code)
+            nJS = advanced_clean_js_code(js_code)
+            code_text.setPlainText( nJS )
             
             # QMessageBox.information(dialog,
             #                     localizationF("Success", "Success"),
@@ -834,7 +1103,12 @@ def show_image_dialog(self):
                     return
                 
                 js_code = html_content[start_idx:end_idx].strip()
-                code_text.setPlainText(js_code)
+                # Вставляем в поле Crossword_code
+                nJS = advanced_clean_js_code(js_code)
+                code_text.setPlainText( nJS )
+
+                
+                
                 
                 QMessageBox.information(dialog,
                                     localizationF("Success", "Success"),
@@ -875,12 +1149,128 @@ def show_image_dialog(self):
         text = text.replace('  ', '&nbsp; ')
         return text
 
-    # Добавляем в ваш код функцию сохранения
+
+    def Nstr_OK():
+        pass
+    
+    # Привязываем функцию к кнопке
+    Nstrok_btn.clicked.connect(Nstr_OK)
+
+
+    def RND_OK():
+        pass
+    
+    # Привязываем функцию к кнопке
+    rnd_btn.clicked.connect(RND_OK)
+    
+
+    def repl_utf():          
+        code_text_PT = code_text.toPlainText()
+        utfinput = utf_input.text().strip()        
+        
+        # Создаем словарь замен из utfinput
+        replace_dict = {}
+        for item in re.split(r'[;\s]+', utfinput):
+            if '=' in item:
+                utf_char, ansi_char = item.split('=')
+                replace_dict[ansi_char] = utf_char
+
+        # Ищем строку Clue = new Array(...)
+        clue_match = re.search(r'(Clue\s*=\s*new\s*Array\()(.*?)(\);)', code_text_PT, re.DOTALL)
+        if clue_match:
+            # Извлекаем префикс, содержимое Array и суффикс
+            prefix = clue_match.group(1)
+            content = clue_match.group(2)
+            suffix = clue_match.group(3)            
+            # Заменяем символы в содержимом согласно replace_dict
+            new_content = ''.join(replace_dict.get(char, char) for char in content)            
+            # Собираем новую строку
+            new_clue_str = prefix + new_content + suffix            
+            # Заменяем исходную строку на измененную версию
+            modified_text = code_text_PT[:clue_match.start()] + new_clue_str + code_text_PT[clue_match.end():]            
+            # Применяем изменения к исходному code_text
+            code_text.setPlainText(modified_text)
+
+
+        # Привязываем функцию к кнопке
+        repl_utf_btn.clicked.connect(repl_utf)
+        
+
+    # // Returns a one-way hash for a word.
+    # function HashWord(Word)
+    # {
+    #     var x = (Word.charCodeAt(0) * 719) % 1138;
+    #     var Hash = 837;
+    #     var i;
+    #     for (i = 1; i <= Word.length; i++)
+    #         Hash = (Hash * i + 5 + (Word.charCodeAt(i - 1) - 64) * x) % 98503;
+    #     return Hash;
+    # }
+
+    def hash_word(word):
+        if not word:
+            return 0
+        
+        x = (ord(word[0]) * 719) % 1138
+        hash_val = 837
+        
+        for i in range(1, len(word) + 1):
+            char_code = ord(word[i - 1]) - 64
+            
+            # Вычисляем как в JavaScript (с отрицательными промежуточными значениями)
+            intermediate = hash_val * i + 5 + char_code * x
+            
+            # Эмулируем JavaScript поведение modulo для отрицательных чисел
+            hash_val = intermediate % 98503
+            if intermediate < 0:
+                hash_val -= 98503
+        
+        return hash_val
+    
+    
+    def UpdateAnswerHash(): 
+        code_text_PT = code_text.toPlainText()
+        # Ищем массив Word
+        word_match = re.search(r'Word\s*=\s*new\s*Array\((.*?)\);', code_text_PT, re.DOTALL)
+        if word_match:
+            # Извлекаем содержимое массива и разбиваем по запятым
+            array_content = word_match.group(1)
+            # Удаляем все кавычки и пробелы, затем разбиваем
+            words = [word.strip('" ') for word in array_content.split(',')]
+
+            # Вычисляем новые хеши
+            new_hashes = []
+            for word in words:
+                clean_word = word.replace('"', '').strip()
+                hash_val = hash_word(clean_word)
+                new_hashes.append(str(hash_val))
+                        
+            # Формируем новую строку AnswerHash
+            new_answer_hash = f"AnswerHash = new Array({', '.join(new_hashes)});"
+            
+            # Заменяем старый AnswerHash на новый
+            # Ищем старый AnswerHash
+            answer_hash_match = re.search(r'AnswerHash\s*=\s*new\s*Array\(.*?\);', code_text_PT, re.DOTALL)
+            if answer_hash_match:
+                # Заменяем старый хеш на новый
+                modified_text = code_text_PT[:answer_hash_match.start()] + new_answer_hash + code_text_PT[answer_hash_match.end():]            
+                code_text.setPlainText(modified_text)
+            else:
+                # Если AnswerHash не найден, добавляем новый после Word
+                modified_text = code_text_PT[:word_match.end()] + '\n' + new_answer_hash + code_text_PT[word_match.end():]                
+                code_text.setPlainText(modified_text)  
+
+
+
+    # Добавляем сохранение полей
     def save_to_fields():
         # Получаем текст из всех окон
         main_content = prepare_text_for_saving(word_text.toPlainText())  # основное окно
         hint_content = prepare_text_for_saving(hint_text.toPlainText())  # окно подсказки
         crossword_code_content = prepare_text_for_saving(code_text.toPlainText())  # окно кода кроссворда
+        
+        save_utf_input( utf_input.text().strip() )
+        save_order_edit( order_edit.text().strip() ) 
         
         try:
             # Сохраняем в поле "word=transcription=translation=example=extranslation"
@@ -997,7 +1387,7 @@ gui_hooks.browser_will_show.append(browser_show)
 def create_note_type_if_not_exists():    
     col = mw.col
     models = col.models    
-    name = "Crossword (v1.1)"
+    name = "Crossword (v1.2)"
     if models.by_name(name):
         return
 
@@ -1017,7 +1407,7 @@ def create_note_type_if_not_exists():
             escaped_loc = loc.replace('"', r'\"') # Экранируем кавычки в заменяемом тексте            
             front = re.sub( fr'({var}\s*=\s*")((?:\\.|[^"\\])*)(";)', fr'\g<1>{escaped_loc}\g<3>', front )  
 
-    back_vars = [f"var z_lang_back{i:d}" for i in range(1,19)]  # 1..18
+    back_vars = [f"var z_lang_back{i:d}" for i in range(1,20)]  # 1..19
     for var in back_vars:
         loc = localizationF(var, "---")
         if loc != "---":
