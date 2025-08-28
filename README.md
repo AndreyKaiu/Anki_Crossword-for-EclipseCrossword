@@ -1,6 +1,8 @@
 # Anki_Crossword-for-EclipseCrossword
 Add-on for the Anki program. Creating a crossword for Anki (generation so far only with the free program [EclipseCrossword](https://www.eclipsecrossword.com/) ).
 
+Attention! If you downloaded version 1.1, then please note that you need to select the type "Crossword (v1.2)" to create records.
+
 ![Crossword1_1_4](https://github.com/user-attachments/assets/3a75c3ce-b9bc-4d2d-9367-fe4dece38ec6)
 
 ![Crossword1_1_3](https://github.com/user-attachments/assets/a91c5163-7eda-4e38-b31c-569a1ddabcae)
