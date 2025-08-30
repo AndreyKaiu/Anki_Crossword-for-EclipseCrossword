@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Crossword for EclipseCrossword
 # https://github.com/AndreyKaiu/Anki_Crossword-for-EclipseCrossword
-# Version 1.2, date: 2025-08-28
+# Version 1.2, date: 2025-08-30
 from aqt.qt import *
 from aqt.editor import Editor
 from aqt.browser.browser import Browser
@@ -632,7 +632,16 @@ def show_image_dialog(self):
 
     def fill_empty_word_array():
         # Получаем текст с подсказками
-        hint_text_PT= hint_text.toPlainText()        
+        hint_text_PT= hint_text.toPlainText()    
+
+        # Извлекаем массив чисел из строки
+        lengths_match = re.search(r'WordLength\s*=\s*new\s*Array\(([^)]+)\)', code_text.toPlainText() )
+        if lengths_match:
+            numbers = re.findall(r'\d+', lengths_match.group(1))
+            WordLength_items = [int(x) for x in numbers]            
+        else:            
+            QMessageBox.warning(dialog, localizationF("Error", "Error"), "WordLength array not found")
+            return False   
         
         # Парсим массив Clue (если он определен в коде)
         clue_match = re.search(r'\s*Clue\s*=\s*new\s*Array\((.*"\s*)\);', code_text.toPlainText())
@@ -661,7 +670,6 @@ def show_image_dialog(self):
             return False
         
         
-        
         # Парсим hint_text (формат "слово:  подсказка")
         word_hint_pairs = []
         for line in hint_text_PT.splitlines():
@@ -676,7 +684,36 @@ def show_image_dialog(self):
             for word, hint in word_hint_pairs:                
                 if clue_first_word.strip().lower() == hint.strip().lower():
                     wordUP = word.upper()
+                    # в wordUP символоы —, –, − заменить на обычный дефис -                    
+                    wordUP = wordUP.replace('—', '-').replace('–', '-').replace('−', '-')
+                    # а если будет встречен какой-то символ: `~!@^*()_|\/,?><;:’”[]{}"'„“«» 
+                    # то все эти символы удалить из wordUP
+                    wordUP = re.sub(r'[`~!@^*()_|\\/,?><;:’”\[\]{}"„“«»]', '', wordUP)
                     word_array_items.append(f'"{wordUP}"')
+
+                    # Получаем текущую позицию и проверяем длину
+                    current_index = len(word_array_items) - 1  # Индекс только что добавленного слова
+
+                    if current_index < len(WordLength_items):
+                        expected_length = WordLength_items[current_index]
+                        actual_length = len(wordUP)
+                        
+                        if actual_length != expected_length:
+                            QMessageBox.warning(
+                                dialog,
+                                localizationF("Error", "Error"),
+                                f"Word length error: {wordUP}\nExpected: {expected_length}, Got: {actual_length}"
+                            )
+                            return False
+                    else:
+                        # Обработка случая, когда слов больше чем элементов в массиве длин
+                        QMessageBox.warning(
+                            dialog,
+                            localizationF("Error", "Error"), 
+                            f"Word length array index out of bounds: {current_index}"
+                        )
+                        return False
+
                     found = True
                     break
             
@@ -812,6 +849,11 @@ def show_image_dialog(self):
             parts = line.split('=')
             if len(parts) >= 3:  # Нужны как минимум word и translation
                 word = parts[0].strip()
+                # в word символоы —, –, − заменить на обычный дефис -                    
+                word = word.replace('—', '-').replace('–', '-').replace('−', '-')
+                # а если будет встречен какой-то символ: `~!@^*()_|\/,?><;:’”[]{}"'„“«» 
+                # то все эти символы удалить из word
+                word = re.sub(r'[`~!@^*()_|\\/,?><;:’”\[\]{}"„“«»]', '', word)
                 translation = parts[2].strip()
                 hints.append(f"{word}:  {translation}")
         
@@ -844,12 +886,18 @@ def show_image_dialog(self):
             if len(parts) >= 4:  # Нужны как минимум word и example
                 word = parts[0].strip()
                 example = parts[3].strip()
-                
+
                 # Создаем регулярное выражение для поиска 
                 pattern = re.compile(r'\b' + re.escape(word), re.IGNORECASE)
                 
                 # Заменяем все вхождения на ***
                 masked_example = pattern.sub('***', example)
+
+                # в word символоы —, –, − заменить на обычный дефис -                    
+                word = word.replace('—', '-').replace('–', '-').replace('−', '-')
+                # а если будет встречен какой-то символ: `~!@^*()_|\/,?><;:’”[]{}"'„“«» 
+                # то все эти символы удалить из word
+                word = re.sub(r'[`~!@^*()_|\\/,?><;:’”\[\]{}"„“«»]', '', word)
                 
                 hints.append(f"{word}:  {masked_example}")
         
